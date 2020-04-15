@@ -26,6 +26,24 @@ static:
 
 
 
+# 日志系统
+
+Log4j:  直接记录日志的日志框架
+
+jul:   java自带的一个日志记录的技术,直接使用
+
+jcl: commons-logging    
+
+​	在没有log4j的依赖情况下,是用jul
+
+​	如果有了log4j则使用log4j
+
+slf4j:
+
+​	通过绑定器绑定一个具体的日志记录来完成日志记录
+
+​	
+
 
 
 
@@ -154,3 +172,68 @@ bean： 受到spring 管理的一个java对象
 
 对象：  java对象
 
+
+
+
+
+BeanDefination:
+
+​	是spring bean的所有模板，其数据结构包含了springbean可能需要的所有属性
+
+BeanPostProcessor:
+
+​	后置处理器：
+
+
+
+ImportSelector
+
+
+
+full（@） :  全配置类， 会进行cglib 代理
+
+lite:  部分配置类   不会进行cglib 代理
+
+
+
+spring 对不同bean的处理
+
+普通的bean:   扫描完成之后注册
+
+importselector: 先放到configurationClasses中，然后注册， loadbean
+
+Registar：   importBeanDefinitionRegistrars  然后注册
+
+import普通类：
+
+
+
+
+
+# mybatis:
+
+spring 每次做完查询会关闭session
+
+​	一级缓存： 基于sqlsession
+
+​	二级缓存
+
+# 其他
+
+
+
+过滤器、拦截器：
+
+​	filter 是servlet规范规定的
+
+​	拦截器是spring容器内的
+
+
+
+
+
+http：
+
+rpc():
+
+asm:

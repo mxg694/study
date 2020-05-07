@@ -24,7 +24,7 @@ static:
 
 
 
-
+jdbc (java database connection): 数据库连接
 
 # 日志系统
 
@@ -40,13 +40,51 @@ jcl: commons-logging
 
 slf4j:
 
-​	通过绑定器绑定一个具体的日志记录来完成日志记录
+​	通过绑定器绑定一个具体的日志框架来完成日志记录
+
+spring4 :
+
+​	使用的是JCL  优先使用：Log4j， 然后 JUL
+
+```
+LOGGING_IMPL_LOG4J_LOGGER,
+"org.apache.commons.logging.impl.Jdk14Logger",
+"org.apache.commons.logging.impl.Jdk13LumberjackLogger",
+"org.apache.commons.logging.impl.SimpleLog"
+```
+
+spring5:
+
+​	使用的是 spring-jcl  --先使用的JUL
+
+```
+private static LogApi logApi = LogApi.JUL;
+switch (logApi) {
+   case LOG4J:
+      return Log4jDelegate.createLog(name);
+   case SLF4J_LAL:
+      return Slf4jDelegate.createLocationAwareLog(name);
+   case SLF4J:
+      return Slf4jDelegate.createLog(name);
+   default：
+      return JavaUtilDelegate.createLog(name);
+}
+```
+
+mybatis:
 
 ​	
 
-
-
-
+```
+日志使用顺序
+    useSlf4jLogging();
+    useCommonsLogging()
+    useLog4J2Logging();
+    useLog4JLogging();
+    useJdkLogging();
+    useNoLogging();
+  
+```
 
 # Spring
 
@@ -103,6 +141,26 @@ AOP的编程思想：
 ​	把这些横切性问题和主业务逻辑分开，达到与主业务逻辑解耦的过程
 
 
+
+spring 的循环依赖：
+
+​	
+
+
+
+beanFactory
+
+FactoryBean
+
+beanDefinition
+
+beanDefinitionRegistry
+
+beanDefinitionReader
+
+BeanPostProcessor:
+
+BeanFactoryPostProcessor:
 
 
 
@@ -212,11 +270,81 @@ import普通类：
 
 # mybatis:
 
+
+
+
+
+mybatis 解析mapper 有几种方式？
+
+​	4种=》 url，class, resource, package
+
+
+
+
+
+​	
+
+
+
+
+
 spring 每次做完查询会关闭session
 
 ​	一级缓存： 基于sqlsession
 
-​	二级缓存
+​	二级缓存：
+
+# Mybatis-plus
+
+数据库不考虑事务 隔离性会出现的问题：
+
+​	读的问题
+
+​		脏读， 不可重复读， 幻读
+
+​	写的问题
+
+​		 丢失更新：多个人同时修改同一条数据，最后提交的会把之前的提交的数据覆盖
+
+乐观锁：
+
+​	主要解决的问题： 丢失更新
+
+​	解决方案：执行更新之前，会检查本次数据的版本，版本一致则更新
+
+​		
+
+
+
+悲观锁（串行）：
+
+​	
+
+
+
+
+
+
+
+
+
+
+
+## 面试
+
+## mybatis
+
+### 1、mybatis的一级缓存的各种问题
+
+#### 在和 spring整合之后为什么失效
+
+​	    因为mybatis和spring的集成包中扩展了一个类SqlSessionTemplate，这个类在spring容器启动的时候注入给了mapper，这个类代替了原来的 DefaultSqlSession，SqlSessionTemplate的所有查询方法不是直接查询，而是经过一个代理，代理对象增强了查询方法，注意是关闭了session
+
+
+
+#### 		2、mybatis的一级缓存技术的底层原理
+
+
 
 # 其他
 
@@ -237,3 +365,256 @@ http：
 rpc():
 
 asm:
+
+
+
+前后端分离开发：
+
+前端： 页面（数据）显示
+
+
+
+后端：操作数据
+
+
+
+# 面试
+
+1.我是xxx工作xxx年， 先后在xxx公司工作，先后做过多少项目
+
+2、简单介绍项目：
+
+​     为了解决什么问题，开发了一套什么系统。该系统有哪些部分组成。
+
+​     先介绍项目的整体架构，参与某个模块的开发， 说一下 这个模块的业务设计
+
+3、java的专业技能
+
+4、最擅长什么，说下
+
+ 	对xxx有所研究
+
+
+
+1、java的跨平台原理：
+
+​		java通过不同系统，不同版本，不同位数的java虚拟机（jvm）,来屏蔽不同的系统指令集差异，
+
+​		而对外提供统一的接口（java API）.
+
+​		简化：java 通过jvm来屏蔽不同系统指令集的差异，通过通用api开发程序
+
+2、java 中 int数据 占几个字节：
+
+​		int 占 4个字节，32位
+
+​		boolean 占  1位
+
+3、面向对象的特性
+
+​	封装、多态、继承、抽象
+
+​	封装：将对象封装成高度自治和相对封闭的个体，一个类，属性私有，提供get和set方法
+
+​    抽象：找出事物的相似和共性之处，抽象出公共属性。
+
+​	继承：父子关系
+
+​	多态：
+
+​		实现机制：编译期间不确定调用对象，运行期间才会确定
+
+​	原则：回答抽象的问题的时候，要举例说明
+
+
+
+4、基本数据类型 和  包装类型
+
+​		8中基本数据类型
+
+​		每个基本数据类型，都会一一对应包装类型
+
+​		装箱和拆箱
+
+​		装箱：基本数据类型 -》 包装类型
+
+​		拆箱：包装类型 --》基本数据类型
+
+​		基本数据类型，不具备面向对象的特性
+
+5、== 和equals
+
+​	== : 判断两个变量的值是否相等。 基本数据类型变量 ==比较值==，引用数据类型比较引用==内存的首地址==
+
+​	equals: 比较两个对象长的是否一样
+
+6、String 和StringBuilder, StringBuffer
+
+​		String: ==内容不可变，String 底层使用了一个不可变的字符数组==
+
+​		StringBuilder：内容可变，底层使用的是可变的字符数组，==线程不安全，效率快==
+
+​		StringBuffer：内容可变，底层使用的是可变的字符数组，==线程安全==
+
+7、java中的集合
+
+​		Collection(key)
+
+​			List:  有序，可重复（根据equals和hashcode 方法）。
+
+​			Set:  无序，不可重复，
+
+​		Map（key-value）
+
+8、ArrayList  和 LinkedList
+
+​	ArrayList：
+
+​		底层使用的是数组（是一块地址连续的内存），查询快，插入删改慢
+
+​	LinkedList:
+
+​		底层使用的是链表（是一块地址不连续的内存），查询慢，插入删改快
+
+9、hashMap 和hashTable
+
+​	共同点： 都可以存储key-value 数据
+
+​	不同点：
+
+​		hashMap：
+
+​			null 可以为key,线程不安全，效率高
+
+​		hashTable:
+
+​			null 不可以为key,线程安全，效率低
+
+​		concurrentHashMap: 线程安全，效率相对较高
+
+10、拷贝文件的工具类使用字节流还是字符流
+
+​	字符流： 只能是文本
+
+​	字节流： 二进制数组
+
+11、线程的几种实现方式：
+
+​		继承thread类：扩展性差
+
+​		实现runnable接口
+
+12、线程池的作用：
+
+​		限定线程个数，不会导致由于线程过多，导致系统运行缓慢或崩溃
+
+13、常用设计模式：
+
+​		设计模式：解决特定问题的设计方法
+
+​		单例：		
+
+​		工厂：springIOC
+
+​			对象的创建，交给一个工厂
+
+​		代理：springAOP
+
+14、http Get post	
+
+​	相同：
+
+​		都是http 请求方式，get -》获取资源  post->修改资源
+
+​	不同:
+
+​		get：
+
+​			提交请求会在地址栏中显示
+
+​			传输数据大小有限制
+
+​			安全性低
+
+​		post：
+
+​			提交请求不会在地址栏中显示
+
+​			传输数据大小没有限制
+
+​			安全性高
+
+15、Servlet
+
+​	server applet: 
+
+​		服务器端程序，交互式的浏览和修改数据，生成动态web内容
+
+​	cookie 和session:
+
+​		cookie:
+
+​			客户端记录信息
+
+​		session:
+
+​			服务器端记录信息
+
+16：MVC   model  view  controller
+
+​	
+
+数据库：
+
+关系型数据库三范式：
+
+​	一：表中每一列都不可分割
+
+​	二：主键
+
+​	三：外键
+
+反三范式：
+
+​	为了效率查询，设置重复字段
+
+
+
+事务（ACID）：操作序列
+
+​	原子性：操作不可分割，要么都成功，要么都失败
+
+​	一致性：要么都成功，要么都失败，失败要回滚
+
+​	隔离性：事务开始后，不能受其他事务干扰
+
+​	持久性：事务开始后，不能终止
+
+
+
+
+
+# Zookeeper
+
+
+
+# CSS
+
+```
+/*特殊情况， 块级元素 如果这个盒子啊，没有宽度 则padding 不会撑开盒子*/
+```
+
+
+
+	关于Windows10系统重装，您需要准备一个8G以上容量u盘，并按照以下步骤操作：
+1 备份u盘原有数据并格式化u盘
+2 在电脑上打开以下链接，点击立即下载工具，将微软官方Win10镜像工具下载到本地硬盘路径：https://dell.to/2ttJ6iS
+3 双击运行下载的镜像工具程序，按照提示接收协议，并选中“为另一台电脑创建安装介质”选项，点击下一步
+4 先取消勾选“对这台电脑使用推荐的选项”，手动选择版本为：中文（简体）---Windows10家庭中文版---64位（x64）
+5 选择使用的介质为u盘并点击下一步，之后等待镜像下载到u盘中，下载完成后镜像工具会将u盘自动生成为系统安装介质
+6 将u盘插入需要重装系统的电脑，开机后连续敲击F12键，然后选择UEFI Options下的usb选项，选择通过u盘启动进行系统重装
+
+关于如何制作并使用win10 USB安装镜像, 图文教程参考：https://dell.to/3aIVKx8
+视频教程请参考 http://v.youku.com/v_show/id_XMTMzODg4NTg3Mg==.html
+【注意】重装系统的时候资料可能会丢失，需要提前做好备份呢
+

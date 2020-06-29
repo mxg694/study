@@ -12,3 +12,31 @@
 关于如何制作并使用win10 USB安装镜像, 图文教程参考：https://dell.to/3aIVKx8
 视频教程请参考 http://v.youku.com/v_show/id_XMTMzODg4NTg3Mg==.html
 【注意】重装系统的时候资料可能会丢失，需要提前做好备份呢
+
+------------------------------------------------------------------------------
+# win10 优化
+
+## 1.关闭不必要的服务
+
+关闭服务的方法是，Win+R调出运行对话框，输入“Services.msc”启动服务面板，接下来输入要禁用的服务首字母，最后双击“禁用”即可。
+
+1、Connected User Experiences and Telemetry
+2、Diagnostic Execution Service：
+3、 Windows Search
+## 2、硬盘定期优化
+
+此电脑”→硬盘驱动器→“属性”→ “工具”→“优化
+​	机械硬盘执行的是碎片整理，而固态硬盘就是TRIM。
+### 3、关闭系统保护
+此电脑”→“属性”，点击“高级系统设置”，然后切换到“系统保护”标签→“配置”，最后点击“禁用系统保护”即可关闭系统保护功能。
+4、关闭Windows Defender
+	在搜索框中输入“gpedit.msc”打开组策略编辑器，然后依次展开“计算机配置”→“管理模	   板”→“Windows组件”→“Windows Defender防病毒程序”，在右侧窗格中双击“关闭Windows Defender防病毒程序”
+参考链接：
+​	https://www.jiaochengzhijia.com/win10/6492.html   
+​	https://dell.to/2IV3y1Q
+
+### dell笔记本优化
+​	1 按windows + R ，然后再输入框中输入msconfig,按回车，弹出系统配置对话框。
+​	2 再点击 服务，单击 隐藏所有microsoft 服务，然后单击全部禁用。
+​	3 再点击 启动，点击打开任务管理器，点击启动项，然后单机禁用您自己下载的软件（第三方启动	项），选择要禁用的软件，右下角将启动类型设置为禁用  
+​	4 单击确定，重启系统     
